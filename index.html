@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Numerology Calculator</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }
+        input, button { margin: 10px; padding: 10px; font-size: 16px; }
+    </style>
+</head>
+<body>
+
+    <h1>Numerology Calculator</h1>
+
+    <label>Enter Birthdate:</label>
+    <input type="date" id="birthdate">
+    <button onclick="calculateLifePath()">Calculate Life Path</button>
+    <p id="lifePathResult"></p>
+
+    <label>Enter Full Name:</label>
+    <input type="text" id="fullName">
+    <button onclick="calculateNumerology()">Calculate Name Numerology</button>
+    <p id="nameNumerologyResult"></p>
+
+    <script>
+        function calculateLifePath() {
+            const birthdate = document.getElementById("birthdate").value;
+            if (!birthdate) return alert("Please enter a valid birthdate.");
+            
+            const [year, month, day] = birthdate.split("-").map(Number);
+            let sum = year + month + day;
+            while (![11, 22, 33].includes(sum) && sum > 9) {
+                sum = sum.toString().split('').reduce((acc, num) => acc + parseInt(num), 0);
+            }
+            
+            document.getElementById("lifePathResult").innerText = `Your Life Path Number is: ${sum}`;
+        }
+
+        function calculateNumerology() {
+            const name = document.getElementById("fullName").value.toUpperCase().replace(/[^A-Z]/g, "");
+            if (!name) return alert("Please enter a valid name.");
+            
+            const numerologyMap = Object.fromEntries(
+                "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split('').map((char, i) => [char, (i % 9) + 1])
+            );
+            
+            let sum = name.split('').reduce((acc, letter) => acc + numerologyMap[letter], 0);
+            while (![11, 22, 33].includes(sum) && sum > 9) {
+                sum = sum.toString().split('').reduce((acc, num) => acc + parseInt(num), 0);
+            }
+            
+            document.getElementById("nameNumerologyResult").innerText = `Your Name Numerology Number is: ${sum}`;
+        }
+    </script>
+
+</body>
+</html>
